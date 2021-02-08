@@ -21,10 +21,10 @@ valuesSlider.oninput = function() {
 }
 let speedSlider = document.getElementById("speedSlider");
 var speedOut = document.getElementById("speedOut");
-speedOut.innerHTML = "Speed (per second): " + speedSlider.value;
+speedOut.innerHTML = "Speed: " + speedSlider.value;
 speedSlider.oninput = function() {
     speed = 500 - this.value;
-    speedOut.innerHTML = "Values: " + speed;
+    speedOut.innerHTML = "Speed: " + speed;
 }
 
 const timer = ms => new Promise(res => setTimeout(res, ms));
