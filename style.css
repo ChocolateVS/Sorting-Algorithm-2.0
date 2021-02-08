@@ -1,5 +1,5 @@
 body, html {
-    background-color:aqua;
+    background-color:#bb00ff;
     width:100%;
     height:100%;
     margin:0;
@@ -14,12 +14,13 @@ body {
     align-items: center;
 }
 
-.optionDiv,.canvas {
-    border:1px solid orange;
-}
-
 .ver {
     display: flex;
     flex-flow:column;
     justify-content: center;
+}
+
+* {
+    font-family: monospace;
+    text-align: center;
 }
