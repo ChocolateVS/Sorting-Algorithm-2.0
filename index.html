@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sorting Algorithms 2.0</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <div id="options" class="optionDiv">
+        <!--SLIDER FOR SPEED-->
+    </div>
+    <div class="ver">
+        <canvas class="canvas" id="canvas" width="800" height="600"></canvas>
+        <select id="sortType">
+            <option name="bogo" value="0">BOGO SORT</option>
+            <option name="bubble" value="1">BUBBLE SORT</option>
+        </select>
+        <input type="range" min="1" max="100" value="10" class="slider" id="valuesSlider">
+        <span id="valuesOut"></span>
+        <input type="range" min="1" max="500" value="250" class="slider" id="speedSlider">
+        <span id="speedOut"></span>
+        <button class="Btn" id="gen" onclick="genData()">GENERATE</button>
+        <button class="Btn" id="start" onclick="start()">START</button>
+        <span id="count"></span>
+    </div>
+</body>
+<script src="script.js"></script>
+</html>
