@@ -1,6 +1,5 @@
 let canvas = document.getElementById("canvas");
 let c = canvas.getContext("2d");
-c.fillStyle = "aqua";
 let width = canvas.width;
 let height = canvas.height;
 
@@ -26,14 +25,15 @@ var speedOut = document.getElementById("speedOut");
 speedOut.innerHTML = speedSlider.value;
 speedSlider.oninput = function() {
     speed = 1000 - this.value;
-    speedOut.innerHTML = speed;
+    speedOut.innerHTML = this.value;
 }
 
 const timer = ms => new Promise(res => setTimeout(res, ms));
 
 let algorithms = [
-    bogoSort,
-    bubbleSort
+    bubbleSort,
+    insertionSort,
+    bogoSort
 ]
 function start() {
     go = true;
@@ -42,9 +42,9 @@ function start() {
         let algorithm = sortType.value;
         console.log(algorithm);
         algorithms[sortType.value]();
-        if (sortType.value == 0) {
+        if (sortType.value == 2) {
             therOut.innerHTML = factorialize(values) + " (!n)";
-        } else if (sortType.value == 1) {
+        } else if (sortType.value <= 1) {
             therOut.innerHTML = (values * values) + " (n\xB2)";
         }
     }
@@ -72,12 +72,13 @@ function shuffleArray() {
         data[i] = data[j];
         data[j] = temp;
     }
-    draw(data);
+    draw([], false);
 }
 
-function draw() {
+function draw(highlight, h) {
     let d = data;
     c.clearRect(0, 0, width, height);
+    c.fillStyle = "aqua";
     let blockW = (width / d.length);
     let gap = blockW * 0.05;
     let blockWidth = blockW * 0.95;
@@ -86,6 +87,10 @@ function draw() {
     for (i = 0; i < d.length; i++) {
         let blockHeight = d[i]/d.length * height;
         y = height - blockHeight;
+        c.fillStyle = "aqua";
+        if (highlight.includes(i) && h) {
+            c.fillStyle = "lightblue";
+        }
         c.fillRect(x, y, blockWidth, blockHeight);
         //console.log(x, y, blockWidth, blockHeight);
         x += blockWidth + gap;
@@ -94,22 +99,22 @@ function draw() {
 
 async function bubbleSort() {
     running = true;
-    for (let i = 0; i < data.length; i++) {
+    for (let i = 0; i < data.length - 1; i++) {
         await timer(speed);
-        count++;
-        countOut.innerHTML = count;
+        countUp();
         if (data[i] > data[i + 1]) {
             let temp = data[i + 1];
             data[i + 1] = data[i];
             data[i] = temp;   
-            draw(); 
         }
+        draw([i, i + 1], true); 
     }
     
     if (!check() && go) {
         bubbleSort();
     }
     else {
+        draw([], false);
         running = false;
         go = false;
     }
@@ -149,4 +154,27 @@ function factorialize(num) {
   }
 }
 
+async function insertionSort() {
+    running = true;
+    for (let i = 1; i < data.length; i++) {
+        let key = data[i];
+        let j = i - 1;
+        while (j >= 0 && data[j] > key) {
+            data[j + 1] = data[j];
+            j -= 1;
+            countUp();
+            draw([key, j], true);
+            await timer(speed);
+        }
+        data[j + 1] = key;
+        countUp();
+        draw([key, j], true);
+        await timer(speed);
+    }
+    running = false;
+}
 
+function countUp() {
+    count++;
+    countOut.innerHTML = count;
+}
